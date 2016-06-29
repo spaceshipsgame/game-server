@@ -1,7 +1,14 @@
 package model;
 
-/**
- * Created by DimaMir on 26.03.2016.
- */
 public class Player {
+
+    private String playerHash;
+
+    public String getPlayerHash() {
+        return playerHash;
+    }
+
+    public void setPlayerHash(String playerHash) {
+        this.playerHash = playerHash;
+    }
 }

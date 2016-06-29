@@ -1,11 +1,9 @@
-package game.protocol;
+package protocol.actions;
 
 import game.GameEngine;
+import protocol.PlayerAction;
 
-/**
- * Created by DimaMir on 26.03.2016.
- */
-public class MoveCommand implements Command{
+public class MoveCommand implements PlayerAction{
 
     private Button button;
     private boolean isPressed;
@@ -29,10 +27,6 @@ public class MoveCommand implements Command{
 
     public void setPressed(boolean pressed) {
         isPressed = pressed;
-    }
-
-    public void execute(GameEngine engine) {
-
     }
 
     public enum Button{

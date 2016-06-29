@@ -1,4 +1,4 @@
-package game.playersaction;
+package protocol;
 
 import java.util.LinkedList;
 import java.util.Queue;

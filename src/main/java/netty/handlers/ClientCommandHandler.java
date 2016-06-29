@@ -3,25 +3,23 @@ package netty.handlers;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import game.protocol.LogInCommand;
-import game.protocol.MoveCommand;
+import protocol.PlayerActionQueue;
+import protocol.actions.LogInCommand;
+import protocol.actions.MoveCommand;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import org.apache.log4j.Logger;
-import workers.ClientCommandProcessor;
 
-/**
- * Created by DimaMir on 20.03.2016.
- */
 public class ClientCommandHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> {
 
     private static Logger logger = Logger.getLogger(ClientCommandHandler.class);
 
-    private ClientCommandProcessor processor;
+    private PlayerActionQueue actionQueue;
+    private boolean isAuthorized;
 
-    public ClientCommandHandler(ClientCommandProcessor processor) {
-        this.processor = processor;
+    public ClientCommandHandler(PlayerActionQueue playerActionQueue) {
+        this.actionQueue = playerActionQueue;
     }
 
     @Override
@@ -34,17 +32,12 @@ public class ClientCommandHandler extends SimpleChannelInboundHandler<TextWebSoc
             JsonElement element = parser.parse(message);
             json = element.getAsJsonObject();
         } catch (Exception exeption){
-            logger.warn("Test success");
+            logger.error("JSON parsing exeption");
         }
 
+        if(putIfLogInCommand(json)) return;
         if(putIfMoveCommand(json)) return;
         if(putIfShotCommand(json)) return;
-        if(putIfLogInCommand(json)) {
-            JsonObject jsonObj = new JsonObject();
-            jsonObj.addProperty("clientKeyHash", "999");
-            ctx.channel().writeAndFlush(new TextWebSocketFrame(jsonObj.toString()));
-            return;
-        }
 
         logger.warn("Wrong JSON format");
     }
@@ -55,7 +48,7 @@ public class ClientCommandHandler extends SimpleChannelInboundHandler<TextWebSoc
             boolean isPressed = json.get("press").getAsBoolean();
             MoveCommand command = new MoveCommand(button.getAsString(), isPressed);
             if(command.getButton() != null) {
-                processor.put(command);
+                actionQueue.offer(command);
                 logger.warn("Move command received");
                 return true;
             }
@@ -70,19 +63,16 @@ public class ClientCommandHandler extends SimpleChannelInboundHandler<TextWebSoc
     }
 
     public boolean putIfLogInCommand(JsonObject json){
-        JsonElement login = json.get("login");
-        if(login != null){
-            String password = json.get("password").getAsString();
-            if(password != null) {
-                LogInCommand command = new LogInCommand(login.getAsString(), password);
-                processor.put(command);
-                logger.warn("Log in command received");
+        if(!isAuthorized){
+            JsonElement playerHashElement = json.get("playerHash");
+            if(playerHashElement != null){
+                isAuthorized = true;
+                actionQueue.offer(new LogInCommand(playerHashElement.getAsString()));
                 return true;
             }
-            logger.warn("Wrong log in command");
-            return false;
+            logger.warn("Wrong command. Authentification required");
+            return true;
         }
-        logger.warn("Wrong log in command");
         return false;
     }
 }

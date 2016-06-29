@@ -13,11 +13,8 @@ import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpServerCodec;
 import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
 import netty.handlers.ClientCommandHandler;
-import workers.ClientCommandProcessor;
+import protocol.PlayerActionQueue;
 
-/**
- * Created by DimaMir on 20.03.2016.
- */
 public class NettyServer {
 
     private final static int PROCESS_COMMAND_THREAD_COUNT = 1;
@@ -40,7 +37,7 @@ public class NettyServer {
                                 new HttpServerCodec(),
                                 new HttpObjectAggregator(65536),
                                 new WebSocketServerProtocolHandler("/websocket", null, true),
-                                new ClientCommandHandler(new ClientCommandProcessor(1))
+                                new ClientCommandHandler(new PlayerActionQueue())
                         );
                     }
                 })

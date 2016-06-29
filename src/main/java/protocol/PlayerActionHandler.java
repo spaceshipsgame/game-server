@@ -1,4 +1,4 @@
-package game.playersaction;
+package protocol;
 
 public abstract class PlayerActionHandler {
 
