@@ -12,12 +12,12 @@ public class ServerRunner {
         server.initServer();
         try {
             server.startServer(PORT);
+            logger.info("Server started");
+            System.out.println("Server started");
         } catch (InterruptedException e) {
+            logger.info("Server can`t started");
             e.printStackTrace();
         }
-
-        logger.info("Server started");
-        System.out.println("Server started");
     }
 
 }
