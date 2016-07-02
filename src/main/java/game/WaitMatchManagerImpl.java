@@ -6,7 +6,7 @@ import model.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MatchCreationManagerImpl implements MatchCreationManager{
+public class WaitMatchManagerImpl implements WaitMatchManager {
 
     private List<Match> waitMatches = new ArrayList<Match>();
 
@@ -29,7 +29,7 @@ public class MatchCreationManagerImpl implements MatchCreationManager{
     }
 
     public boolean checkPlayer(String playerHash, Player player, Match match){
-        if(playerHash == player.getPlayerHash()){
+        if(playerHash.equals(player.getPlayerHash())){
             match.connectToGame(player);
             return true;
         }

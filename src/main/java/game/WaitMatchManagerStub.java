@@ -3,16 +3,14 @@ package game;
 import model.Match;
 import org.apache.log4j.Logger;
 
-import java.util.List;
+public class WaitMatchManagerStub implements WaitMatchManager {
 
-public class MatchCreationManagerStub implements MatchCreationManager{
-
-    private static Logger logger = Logger.getLogger(MatchCreationManagerStub.class);
+    private static Logger logger = Logger.getLogger(WaitMatchManagerStub.class);
 
     private final static String HARDCODED_HASH = "HARDCODED_HASH";
     private final static Match HARDCODED_MATCH = new Match();
 
-    public MatchCreationManagerStub() {}
+    public WaitMatchManagerStub() {}
 
     @Override
     public boolean connectToMatch(String playerHash) {

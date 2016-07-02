@@ -2,7 +2,7 @@ package game;
 
 import model.Match;
 
-public interface MatchCreationManager {
+public interface WaitMatchManager {
 
     public boolean connectToMatch(String playerHash);
 

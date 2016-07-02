@@ -4,8 +4,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import protocol.PlayerActionQueue;
-import protocol.actions.LogInCommand;
-import protocol.actions.MoveCommand;
+import protocol.actions.LogInAction;
+import protocol.actions.MoveAction;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
@@ -32,7 +32,7 @@ public class ClientCommandHandler extends SimpleChannelInboundHandler<TextWebSoc
             JsonElement element = parser.parse(message);
             json = element.getAsJsonObject();
         } catch (Exception exeption){
-            logger.error("JSON parsing exeption");
+            logger.error("JSON parsing exeption", exeption);
         }
 
         if(putIfLogInCommand(json)) return;
@@ -46,7 +46,7 @@ public class ClientCommandHandler extends SimpleChannelInboundHandler<TextWebSoc
         JsonElement button = json.get("button");
         if(button != null){
             boolean isPressed = json.get("press").getAsBoolean();
-            MoveCommand command = new MoveCommand(button.getAsString(), isPressed);
+            MoveAction command = new MoveAction(button.getAsString(), isPressed);
             if(command.getButton() != null) {
                 actionQueue.offer(command);
                 logger.warn("Move command received");
@@ -67,7 +67,7 @@ public class ClientCommandHandler extends SimpleChannelInboundHandler<TextWebSoc
             JsonElement playerHashElement = json.get("playerHash");
             if(playerHashElement != null){
                 isAuthorized = true;
-                actionQueue.offer(new LogInCommand(playerHashElement.getAsString()));
+                actionQueue.offer(new LogInAction(playerHashElement.getAsString()));
                 return true;
             }
             logger.warn("Wrong command. Authentification required");

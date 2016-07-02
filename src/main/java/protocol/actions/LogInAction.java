@@ -2,11 +2,11 @@ package protocol.actions;
 
 import protocol.PlayerAction;
 
-public class LogInCommand implements PlayerAction {
+public class LogInAction implements PlayerAction {
 
     private String playerHash;
 
-    public LogInCommand(String playerHash) {
+    public LogInAction(String playerHash) {
         this.playerHash = playerHash;
     }
 
@@ -23,7 +23,7 @@ public class LogInCommand implements PlayerAction {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        LogInCommand command = (LogInCommand) o;
+        LogInAction command = (LogInAction) o;
 
         return playerHash.equals(command.playerHash);
 

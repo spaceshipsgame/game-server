@@ -19,4 +19,7 @@ public class PlayerActionQueue {
 		return buffer.poll();
 	}
 
+	public boolean isEmpty(){
+		return buffer.isEmpty();
+	}
 }

@@ -3,12 +3,12 @@ package protocol.actions;
 import game.GameEngine;
 import protocol.PlayerAction;
 
-public class MoveCommand implements PlayerAction{
+public class MoveAction implements PlayerAction{
 
     private Button button;
     private boolean isPressed;
 
-    public MoveCommand(String button, boolean isPressed) {
+    public MoveAction(String button, boolean isPressed) {
         this.button = Button.buttonFromString(button);
         this.isPressed = isPressed;
     }

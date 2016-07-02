@@ -17,4 +17,7 @@ public abstract class PlayerActionHandler {
 		}
 	}
 
+	public void setSuccessor(PlayerActionHandler successor) {
+		this.successor = successor;
+	}
 }

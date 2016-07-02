@@ -1,7 +1,10 @@
 package game;
 
-/**
- * Created by DimaMir on 26.03.2016.
- */
+import game.events.Event;
+
 public class GameEngine {
+
+    public void proccess(Event event){
+
+    }
 }
