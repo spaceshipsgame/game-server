@@ -14,9 +14,8 @@ public class WaitMatchManagerStub implements WaitMatchManager {
     public WaitMatchManagerStub() {}
 
     @Override
-    public Player resolveConnection(String playerHash) {
-        if(playerHash == HARDCODED_HASH){
-            //use some service that run match
+    public Player findPlayer(String playerHash) {
+        if(playerHash.equals(HARDCODED_HASH)){
             logger.info("Player with hash: " + playerHash + "connect to the match with hash1: " + HARDCODED_MATCH.hashCode());
             return new Player();
         }

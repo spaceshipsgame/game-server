@@ -14,13 +14,13 @@ public class WaitMatchManagerImpl implements WaitMatchManager {
     public Player findPlayer(String playerHash) {
         for(Match match : waitMatches){
             for(Player player : match.getTeam1().getPlayers()){
-                if(checkPlayer(playerHash, player, match)) return true;
+                if(checkPlayer(playerHash, player, match)) return player;
             }
             for(Player player : match.getTeam2().getPlayers()){
-                if(checkPlayer(playerHash, player, match)) return true;
+                if(checkPlayer(playerHash, player, match)) return player;
             }
         }
-        return false;
+        return null;
     }
 
     @Override
