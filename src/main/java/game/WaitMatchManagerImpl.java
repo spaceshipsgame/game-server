@@ -11,7 +11,7 @@ public class WaitMatchManagerImpl implements WaitMatchManager {
     private List<Match> waitMatches = new ArrayList<Match>();
 
     @Override
-    public boolean connectToMatch(String playerHash) {
+    public Player findPlayer(String playerHash) {
         for(Match match : waitMatches){
             for(Player player : match.getTeam1().getPlayers()){
                 if(checkPlayer(playerHash, player, match)) return true;

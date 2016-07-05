@@ -3,8 +3,11 @@ package netty.handlers;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import game.ConnectionResolver;
+import game.ConnectionResolverImpl;
+import model.Player;
+import netty.NettyConnection;
 import protocol.PlayerActionQueue;
-import protocol.actions.LogInAction;
 import protocol.actions.MoveAction;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -16,6 +19,7 @@ public class ClientCommandHandler extends SimpleChannelInboundHandler<TextWebSoc
     private static Logger logger = Logger.getLogger(ClientCommandHandler.class);
 
     private PlayerActionQueue actionQueue;
+    private ConnectionResolver connectionResolver = new ConnectionResolverImpl();
     private boolean isAuthorized;
 
     public ClientCommandHandler(PlayerActionQueue playerActionQueue) {
@@ -35,14 +39,25 @@ public class ClientCommandHandler extends SimpleChannelInboundHandler<TextWebSoc
             logger.error("JSON parsing exeption", exeption);
         }
 
-        if(putIfLogInCommand(json)) return;
-        if(putIfMoveCommand(json)) return;
-        if(putIfShotCommand(json)) return;
+        if(!isAuthorized) {
+            if (checkIfLogIn(json)) {
+                JsonElement playerHashElement = json.get("playerHash");
+                String playerHash = playerHashElement.getAsString();
+                Player player = connectionResolver.attachToPlayer(new NettyConnection(ctx.channel()), playerHash);
+                if(player != null) {
+                    isAuthorized = true;
+                }
+            }
+            logger.warn("Wrong command. Authentification required");
+        }
+
+        if(proccessIfMoveAction(json)) return;
+        if(proccessIfShotAction(json)) return;
 
         logger.warn("Wrong JSON format");
     }
 
-    public boolean putIfMoveCommand(JsonObject json){
+    public boolean proccessIfMoveAction(JsonObject json){
         JsonElement button = json.get("button");
         if(button != null){
             boolean isPressed = json.get("press").getAsBoolean();
@@ -58,21 +73,12 @@ public class ClientCommandHandler extends SimpleChannelInboundHandler<TextWebSoc
         return false;
     }
 
-    public boolean putIfShotCommand(JsonObject json){
+    public boolean proccessIfShotAction(JsonObject json){
         return false;
     }
 
-    public boolean putIfLogInCommand(JsonObject json){
-        if(!isAuthorized){
-            JsonElement playerHashElement = json.get("playerHash");
-            if(playerHashElement != null){
-                isAuthorized = true;
-                actionQueue.offer(new LogInAction(playerHashElement.getAsString()));
-                return true;
-            }
-            logger.warn("Wrong command. Authentification required");
-            return true;
-        }
-        return false;
+    public boolean checkIfLogIn(JsonObject json){
+        JsonElement playerHashElement = json.get("playerHash");
+        return playerHashElement != null;
     }
 }

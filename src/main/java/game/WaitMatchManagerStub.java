@@ -1,6 +1,7 @@
 package game;
 
 import model.Match;
+import model.Player;
 import org.apache.log4j.Logger;
 
 public class WaitMatchManagerStub implements WaitMatchManager {
@@ -13,14 +14,14 @@ public class WaitMatchManagerStub implements WaitMatchManager {
     public WaitMatchManagerStub() {}
 
     @Override
-    public boolean connectToMatch(String playerHash) {
+    public Player resolveConnection(String playerHash) {
         if(playerHash == HARDCODED_HASH){
             //use some service that run match
             logger.info("Player with hash: " + playerHash + "connect to the match with hash1: " + HARDCODED_MATCH.hashCode());
-            return true;
+            return new Player();
         }
         logger.warn("No match with player tha have hash: " + playerHash);
-        return false;
+        return null;
     }
 
     @Override
