@@ -6,13 +6,13 @@
 
     <groupId>org.spaceships</groupId>
     <artifactId>game-server</artifactId>
-    <version>0.1.0-SNAPSHOT</version>
+    <version>0.1-SNAPSHOT</version>
 
     <dependencies>
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
-            <version>4.0.36.Final</version>
+            <version>4.0.33.Final</version>
         </dependency>
 
         <dependency>

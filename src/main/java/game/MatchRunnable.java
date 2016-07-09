@@ -3,7 +3,7 @@ package game;
 import protocol.PlayerActionHandler;
 import protocol.PlayerActionQueue;
 
-public class MatchWorker implements Runnable {
+public class MatchRunnable implements Runnable {
 
     private GameEngine gameEngine;
     private PlayerActionQueue playerActionQueue;

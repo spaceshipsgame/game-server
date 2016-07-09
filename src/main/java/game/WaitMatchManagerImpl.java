@@ -2,11 +2,14 @@ package game;
 
 import model.Match;
 import model.Player;
+import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class WaitMatchManagerImpl implements WaitMatchManager {
+
+    private static Logger logger = Logger.getLogger(WaitMatchManagerImpl.class);
 
     private List<Match> waitMatches = new ArrayList<Match>();
 
@@ -26,13 +29,17 @@ public class WaitMatchManagerImpl implements WaitMatchManager {
     @Override
     public void addNewMatch(Match match) {
         waitMatches.add(match);
+        MatchManager matchManager = new MatchManager(match);
+        matchManager.startMatch();
     }
 
     public boolean checkPlayer(String playerHash, Player player, Match match){
         if(playerHash.equals(player.getPlayerHash())){
             match.connectToGame(player);
+            logger.info("Player with hash: " + playerHash + "connect to the match with hash: " + match.hashCode());
             return true;
         }
+        logger.warn("No match with player that have hash: " + playerHash);
         return false;
     }
 }

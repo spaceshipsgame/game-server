@@ -8,4 +8,12 @@ public class MatchManager {
     private GameEngine gameEngine;
     private Thread worker;
 
+    public MatchManager(Match match) {
+        this.match = match;
+        worker = new Thread(new MatchRunnable());
+    }
+
+    public void startMatch(){
+        worker.start();
+    }
 }
