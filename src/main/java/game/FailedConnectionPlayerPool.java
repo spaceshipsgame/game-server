@@ -4,13 +4,13 @@ import model.Connection;
 import model.Player;
 import org.apache.log4j.Logger;
 
-import java.util.HashMap;
+import java.util.Map;
 
 public class FailedConnectionPlayerPool implements ConnectionResolver{
 
     private static Logger logger = Logger.getLogger(FailedConnectionPlayerPool.class);
     //should be thread safe collection
-    HashMap<String, Player> failedConnectionPlayers;
+    private Map<String, Player> failedConnectionPlayers;
 
 
     public void addPlayer(Player player){
@@ -23,7 +23,6 @@ public class FailedConnectionPlayerPool implements ConnectionResolver{
         if(player == null){
             logger.debug("Player is not presented in pool");
         } else {
-            player.setConnection(connection);
             logger.debug("Player is find in pool");
         }
         return player;

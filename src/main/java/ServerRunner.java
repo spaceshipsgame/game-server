@@ -15,8 +15,7 @@ public class ServerRunner {
             logger.info("Server started");
             System.out.println("Server started");
         } catch (InterruptedException e) {
-            logger.info("Server can`t start");
-            e.printStackTrace();
+            logger.error("Server can`t start", e);
         }
     }
 

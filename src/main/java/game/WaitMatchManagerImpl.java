@@ -33,7 +33,7 @@ public class WaitMatchManagerImpl implements WaitMatchManager {
         matchManager.startMatch();
     }
 
-    public boolean checkPlayer(String playerHash, Player player, Match match){
+    private boolean checkPlayer(String playerHash, Player player, Match match){
         if(playerHash.equals(player.getPlayerHash())){
             match.connectToGame(player);
             logger.info("Player with hash: " + playerHash + "connect to the match with hash: " + match.hashCode());
