@@ -1,7 +1,4 @@
-package protocol.actions;
-
-import game.GameEngine;
-import protocol.PlayerAction;
+package protocol.action;
 
 public class MoveAction implements PlayerAction{
 

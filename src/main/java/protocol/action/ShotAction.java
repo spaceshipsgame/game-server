@@ -1,7 +1,6 @@
-package protocol.actions;
+package protocol.action;
 
 import model.Gun;
-import protocol.PlayerAction;
 
 public class ShotAction implements PlayerAction{
 

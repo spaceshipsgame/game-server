@@ -1,5 +1,7 @@
 package protocol;
 
+import protocol.action.PlayerAction;
+
 import java.util.LinkedList;
 import java.util.Queue;
 

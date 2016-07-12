@@ -1,5 +1,7 @@
 package protocol;
 
+import protocol.action.PlayerAction;
+
 public abstract class PlayerActionHandler {
 
 	private PlayerActionHandler successor;

@@ -8,7 +8,7 @@ import game.ConnectionResolverImpl;
 import model.Player;
 import netty.NettyConnection;
 import protocol.PlayerActionQueue;
-import protocol.actions.MoveAction;
+import protocol.action.MoveAction;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;

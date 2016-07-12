@@ -1,4 +1,4 @@
-package protocol;
+package protocol.action;
 
 public interface PlayerAction {
 

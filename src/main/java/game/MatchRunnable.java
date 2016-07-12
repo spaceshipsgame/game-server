@@ -9,6 +9,9 @@ public class MatchRunnable implements Runnable {
     private PlayerActionQueue playerActionQueue;
     private PlayerActionHandler chain;
     private EventQueue eventQueue;
+    private NotificationQueue notificationQueue;
+    private PlayerActionProcessor playerActionProcessor;
+
 
     @Override
     public void run() {
