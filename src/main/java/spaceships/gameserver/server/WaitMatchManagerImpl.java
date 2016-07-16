@@ -1,6 +1,7 @@
 package spaceships.gameserver.server;
 
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Component;
 
 import spaceships.gameserver.model.Match;
 import spaceships.gameserver.model.Player;
@@ -8,6 +9,7 @@ import spaceships.gameserver.model.Player;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class WaitMatchManagerImpl implements WaitMatchManager {
 
     private static Logger logger = Logger.getLogger(WaitMatchManagerImpl.class);

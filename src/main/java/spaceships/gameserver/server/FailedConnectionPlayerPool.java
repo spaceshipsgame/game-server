@@ -1,13 +1,15 @@
 package spaceships.gameserver.server;
 
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Component;
 
 import spaceships.gameserver.model.Connection;
 import spaceships.gameserver.model.Player;
 
 import java.util.Map;
 
-public class FailedConnectionPlayerPool implements ConnectionResolver{
+@Component
+public class FailedConnectionPlayerPool{
 
     private static Logger logger = Logger.getLogger(FailedConnectionPlayerPool.class);
     //should be thread safe collection
@@ -18,8 +20,7 @@ public class FailedConnectionPlayerPool implements ConnectionResolver{
         failedConnectionPlayers.put(player.getPlayerHash(), player);
     }
 
-    @Override
-    public Player attachToPlayer(Connection connection, String playerHash) {
+    public Player findPlayer(Connection connection, String playerHash) {
         Player player = failedConnectionPlayers.get(playerHash);
         if(player == null){
             logger.debug("Player is not presented in pool");

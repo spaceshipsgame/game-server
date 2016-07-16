@@ -1,12 +1,19 @@
 package spaceships.gameserver.server;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import spaceships.gameserver.model.Connection;
 import spaceships.gameserver.model.Player;
 
+@Component
 public class ConnectionResolverImpl implements ConnectionResolver {
 
+	@Autowired
 	private WaitMatchManager waitMatchManager;
-	private ConnectionResolver failedConnectionPlayerPool;
+	
+	@Autowired
+	private FailedConnectionPlayerPool failedConnectionPlayerPool;
 
 	@Override
 	public Player attachToPlayer(Connection connection, String playerHash) {
@@ -15,7 +22,7 @@ public class ConnectionResolverImpl implements ConnectionResolver {
 			player.setConnection(connection);
 			return player;
 		}
-		player = failedConnectionPlayerPool.attachToPlayer(connection, playerHash);
+		player = failedConnectionPlayerPool.findPlayer(connection, playerHash);
 		if (player != null) {
 			player.setConnection(connection);
 		}

@@ -1,5 +1,8 @@
 package spaceships.gameserver.netty;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
@@ -15,39 +18,37 @@ import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
 import spaceships.gameserver.engine.PlayerActionQueue;
 import spaceships.gameserver.netty.handlers.ClientCommandHandler;
 
+@Component
 public class NettyServer {
 
-    private final static int PROCESS_COMMAND_THREAD_COUNT = 1;
+	private ServerBootstrap bootstrap;
 
-    private ServerBootstrap bootstrap;
-    private Channel channel;
+	private Channel channel;
 
-    public void initServer(){
+	@Value(value = "${netty_port}")
+	private int port;
 
-        EventLoopGroup bossGroup = new NioEventLoopGroup(); // (1)
-        EventLoopGroup workerGroup = new NioEventLoopGroup();
+	public void initServer() {
 
-        bootstrap = new ServerBootstrap(); // (2)
-        bootstrap.group(bossGroup, workerGroup)
-                .channel(NioServerSocketChannel.class) // (3)
-                .childHandler(new ChannelInitializer<SocketChannel>() { // (4)
-                    @Override
-                    public void initChannel(SocketChannel ch) throws Exception {
-                        ch.pipeline().addLast(
-                                new HttpServerCodec(),
-                                new HttpObjectAggregator(65536),
-                                new WebSocketServerProtocolHandler("/websocket", null, true),
-                                new ClientCommandHandler(new PlayerActionQueue())
-                        );
-                    }
-                })
-                .option(ChannelOption.SO_BACKLOG, 128)          // (5)
-                .childOption(ChannelOption.SO_KEEPALIVE, true); // (6)
-    }
+		EventLoopGroup bossGroup = new NioEventLoopGroup(); // (1)
+		EventLoopGroup workerGroup = new NioEventLoopGroup();
 
-    public void startServer(int port) throws InterruptedException {
-        // Bind and start to accept incoming connections.
-        ChannelFuture f = bootstrap.bind(port).sync(); // (7)
-        //channel.closeFuture().sync();
-    }
+		bootstrap = new ServerBootstrap(); // (2)
+		bootstrap.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class) // (3)
+				.childHandler(new ChannelInitializer<SocketChannel>() { // (4)
+					@Override
+					public void initChannel(SocketChannel ch) throws Exception {
+						ch.pipeline().addLast(new HttpServerCodec(), new HttpObjectAggregator(65536),
+								new WebSocketServerProtocolHandler("/websocket", null, true),
+								new ClientCommandHandler(new PlayerActionQueue()));
+					}
+				}).option(ChannelOption.SO_BACKLOG, 128) // (5)
+				.childOption(ChannelOption.SO_KEEPALIVE, true); // (6)
+	}
+
+	public void startServer() throws InterruptedException {
+		// Bind and start to accept incoming connections.
+		ChannelFuture f = bootstrap.bind(port).sync(); // (7)
+		// channel.closeFuture().sync();
+	}
 }
