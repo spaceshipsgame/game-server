@@ -7,6 +7,12 @@
 # Build targets
 /target
 */target
+bin/
 
 # logs
 *.log
+
+#Eclipse project files and directories
+.classpath
+.project
+.settings/
