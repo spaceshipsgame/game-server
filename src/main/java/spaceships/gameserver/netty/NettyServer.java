@@ -28,10 +28,16 @@ public class NettyServer {
 	@Value(value = "${netty_port}")
 	private int port;
 
+	@Value(value = "${netty_boss_group_thread_count}")
+	private int bossGroupThreadCount;
+
+	@Value(value = "${netty_work_group_thread_count}")
+	private int workerGroupThreadCount;
+
 	public void initServer() {
 
-		EventLoopGroup bossGroup = new NioEventLoopGroup(); // (1)
-		EventLoopGroup workerGroup = new NioEventLoopGroup();
+		EventLoopGroup bossGroup = new NioEventLoopGroup(bossGroupThreadCount); // (1)
+		EventLoopGroup workerGroup = new NioEventLoopGroup(workerGroupThreadCount);
 
 		bootstrap = new ServerBootstrap(); // (2)
 		bootstrap.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class) // (3)
