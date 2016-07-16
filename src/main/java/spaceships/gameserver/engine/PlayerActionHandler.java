@@ -1,6 +1,11 @@
 package spaceships.gameserver.engine;
 
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import spaceships.gameserver.server.protocol.action.PlayerAction;
+
 
 public abstract class PlayerActionHandler {
 
