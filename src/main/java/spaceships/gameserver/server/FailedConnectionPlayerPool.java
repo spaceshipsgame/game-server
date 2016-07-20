@@ -20,7 +20,7 @@ public class FailedConnectionPlayerPool{
         failedConnectionPlayers.put(player.getPlayerHash(), player);
     }
 
-    public Player findPlayer(Connection connection, String playerHash) {
+    public Player findPlayer(String playerHash) {
         Player player = failedConnectionPlayers.get(playerHash);
         if(player == null){
             logger.debug("Player is not presented in pool");

@@ -5,7 +5,9 @@ import spaceships.gameserver.model.Player;
 
 public interface WaitMatchManager{
 
-    public Player findPlayer(String playerHash);
+    Player findPlayer(String playerHash);
 
-    public void addNewMatch(Match match);
+    void addNewMatch(Match match);
+
+    MatchManager getMatchManager(String playerHash);
 }

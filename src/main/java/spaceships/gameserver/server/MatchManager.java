@@ -21,4 +21,20 @@ public class MatchManager {
     public void startMatch(){
         worker.start();
     }
+
+    public Match getMatch() {
+        return match;
+    }
+
+    public void setMatch(Match match) {
+        this.match = match;
+    }
+
+    public MatchRunnable getRunnable() {
+        return runnable;
+    }
+
+    public void setRunnable(MatchRunnable runnable) {
+        this.runnable = runnable;
+    }
 }

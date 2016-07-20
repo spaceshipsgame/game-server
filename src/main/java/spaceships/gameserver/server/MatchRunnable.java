@@ -20,4 +20,12 @@ public class MatchRunnable implements Runnable {
 		playerActionProcessor.processActions();
 		gameEngine.proccessEvents();
 	}
+
+	public PlayerActionQueue getPlayerActionQueue() {
+		return playerActionQueue;
+	}
+
+	public void setPlayerActionQueue(PlayerActionQueue playerActionQueue) {
+		this.playerActionQueue = playerActionQueue;
+	}
 }

@@ -4,7 +4,9 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import org.springframework.beans.factory.config.Scope;
 import spaceships.gameserver.engine.PlayerActionQueue;
+import spaceships.gameserver.model.Connection;
 import spaceships.gameserver.model.Player;
 import spaceships.gameserver.netty.NettyConnection;
 import spaceships.gameserver.server.ConnectionResolver;
@@ -19,17 +21,16 @@ public class ClientCommandHandler extends SimpleChannelInboundHandler<TextWebSoc
 
     private static Logger logger = Logger.getLogger(ClientCommandHandler.class);
 
-    private PlayerActionQueue actionQueue;
-    private ConnectionResolver connectionResolver = new ConnectionResolverImpl();
+    private ConnectionResolver connectionResolver;
+    private Connection connection;
     private boolean isAuthorized;
 
-    public ClientCommandHandler(PlayerActionQueue playerActionQueue) {
-        this.actionQueue = playerActionQueue;
+    public ClientCommandHandler(ConnectionResolver connectionResolver) {
+        this.connectionResolver = connectionResolver;
     }
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, TextWebSocketFrame msg) throws Exception {
-
         String message = msg.text();
         JsonParser parser = new JsonParser();
         JsonObject json= null;
@@ -37,19 +38,21 @@ public class ClientCommandHandler extends SimpleChannelInboundHandler<TextWebSoc
             JsonElement element = parser.parse(message);
             json = element.getAsJsonObject();
         } catch (Exception exeption){
-            logger.error("JSON parsing exeption", exeption);
+            logger.error("JSON parsing exception", exeption);
         }
 
         if(!isAuthorized) {
             if (checkIfLogIn(json)) {
                 JsonElement playerHashElement = json.get("playerHash");
                 String playerHash = playerHashElement.getAsString();
-                Player player = connectionResolver.attachToPlayer(new NettyConnection(ctx.channel()), playerHash);
+                Connection connection = new NettyConnection(ctx.channel());
+                Player player = connectionResolver.attachToPlayer(connection, playerHash);
                 if(player != null) {
+                    this.connection = connection;
                     isAuthorized = true;
                 }
             }
-            logger.warn("Wrong command. Authentification required");
+            logger.warn("Wrong command. Authentication required");
         }
 
         if(proccessIfMoveAction(json)) return;
@@ -64,7 +67,7 @@ public class ClientCommandHandler extends SimpleChannelInboundHandler<TextWebSoc
             boolean isPressed = json.get("press").getAsBoolean();
             MoveAction command = new MoveAction(button.getAsString(), isPressed);
             if(command.getButton() != null) {
-                actionQueue.offer(command);
+                connection.sendToServer(command);
                 logger.warn("Move command received");
                 return true;
             }

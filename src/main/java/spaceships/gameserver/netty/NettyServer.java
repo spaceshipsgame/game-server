@@ -1,5 +1,6 @@
 package spaceships.gameserver.netty;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +18,7 @@ import io.netty.handler.codec.http.HttpServerCodec;
 import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
 import spaceships.gameserver.engine.PlayerActionQueue;
 import spaceships.gameserver.netty.handlers.ClientCommandHandler;
+import spaceships.gameserver.server.ConnectionResolver;
 
 @Component
 public class NettyServer {
@@ -34,6 +36,9 @@ public class NettyServer {
 	@Value(value = "${netty_work_group_thread_count}")
 	private int workerGroupThreadCount;
 
+	@Autowired
+	private ConnectionResolver connectionResolver;
+
 	public void initServer() {
 
 		EventLoopGroup bossGroup = new NioEventLoopGroup(bossGroupThreadCount); // (1)
@@ -46,7 +51,7 @@ public class NettyServer {
 					public void initChannel(SocketChannel ch) throws Exception {
 						ch.pipeline().addLast(new HttpServerCodec(), new HttpObjectAggregator(65536),
 								new WebSocketServerProtocolHandler("/websocket", null, true),
-								new ClientCommandHandler(new PlayerActionQueue()));
+								new ClientCommandHandler(connectionResolver));
 					}
 				}).option(ChannelOption.SO_BACKLOG, 128) // (5)
 				.childOption(ChannelOption.SO_KEEPALIVE, true); // (6)
