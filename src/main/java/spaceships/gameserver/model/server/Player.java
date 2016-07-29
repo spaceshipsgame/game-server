@@ -1,4 +1,6 @@
-package spaceships.gameserver.model;
+package spaceships.gameserver.model.server;
+
+import spaceships.gameserver.model.server.Connection;
 
 public class Player {
 

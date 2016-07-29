@@ -4,13 +4,10 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import org.springframework.beans.factory.config.Scope;
-import spaceships.gameserver.engine.PlayerActionQueue;
-import spaceships.gameserver.model.Connection;
-import spaceships.gameserver.model.Player;
+import spaceships.gameserver.model.server.Connection;
+import spaceships.gameserver.model.server.Player;
 import spaceships.gameserver.netty.NettyConnection;
 import spaceships.gameserver.server.ConnectionResolver;
-import spaceships.gameserver.server.ConnectionResolverImpl;
 import spaceships.gameserver.server.protocol.action.MoveAction;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;

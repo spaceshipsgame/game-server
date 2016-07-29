@@ -1,7 +1,7 @@
 package spaceships.gameserver.stubs;
 
 import spaceships.gameserver.model.Match;
-import spaceships.gameserver.model.Player;
+import spaceships.gameserver.model.server.Player;
 import spaceships.gameserver.server.MatchManager;
 import spaceships.gameserver.server.WaitMatchManager;
 

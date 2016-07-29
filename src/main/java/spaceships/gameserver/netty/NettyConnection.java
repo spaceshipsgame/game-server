@@ -2,7 +2,7 @@ package spaceships.gameserver.netty;
 
 import io.netty.channel.Channel;
 import spaceships.gameserver.engine.PlayerActionQueue;
-import spaceships.gameserver.model.Connection;
+import spaceships.gameserver.model.server.Connection;
 import spaceships.gameserver.server.protocol.action.PlayerAction;
 import spaceships.gameserver.server.protocol.notification.Notification;
 

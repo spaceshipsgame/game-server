@@ -1,7 +1,7 @@
 package spaceships.gameserver.server;
 
-import spaceships.gameserver.model.Connection;
-import spaceships.gameserver.model.Player;
+import spaceships.gameserver.model.server.Connection;
+import spaceships.gameserver.model.server.Player;
 
 public interface ConnectionResolver {
 

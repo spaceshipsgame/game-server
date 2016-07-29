@@ -1,12 +1,11 @@
 package spaceships.gameserver.server;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import spaceships.gameserver.engine.PlayerActionQueue;
-import spaceships.gameserver.model.Connection;
-import spaceships.gameserver.model.Player;
+import spaceships.gameserver.model.server.Connection;
+import spaceships.gameserver.model.server.Player;
 
 @Component
 public class ConnectionResolverImpl implements ConnectionResolver {

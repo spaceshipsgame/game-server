@@ -1,4 +1,4 @@
-package spaceships.gameserver.model;
+package spaceships.gameserver.model.server;
 
 import spaceships.gameserver.engine.PlayerActionQueue;
 import spaceships.gameserver.server.protocol.action.PlayerAction;

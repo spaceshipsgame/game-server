@@ -3,8 +3,7 @@ package spaceships.gameserver.server;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
-import spaceships.gameserver.model.Connection;
-import spaceships.gameserver.model.Player;
+import spaceships.gameserver.model.server.Player;
 
 import java.util.Map;
 

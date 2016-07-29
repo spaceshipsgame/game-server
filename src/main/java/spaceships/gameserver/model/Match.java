@@ -1,6 +1,8 @@
 package spaceships.gameserver.model;
 
 import spaceships.gameserver.engine.EventQueue;
+import spaceships.gameserver.model.Team;
+import spaceships.gameserver.model.server.Player;
 
 public class Match {
 

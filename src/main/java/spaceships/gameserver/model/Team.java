@@ -1,5 +1,7 @@
 package spaceships.gameserver.model;
 
+import spaceships.gameserver.model.server.Player;
+
 import java.util.List;
 
 
