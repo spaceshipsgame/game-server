@@ -1,25 +1,31 @@
 package spaceships.gameserver.server;
 
+import spaceships.gameserver.engine.EventQueue;
 import spaceships.gameserver.engine.GameEngine;
+import spaceships.gameserver.engine.GameEngineImpl;
 import spaceships.gameserver.model.Match;
+
+import java.util.Timer;
 
 public class MatchManager {
 
+    private final static long GAME_TICK_MILLIS = 1000 / 60;
+
     private Match match;
-    private GameEngine gameEngine;
-    private Thread worker;
+    private Timer worker;
     private MatchRunnable runnable;
 
     public MatchManager(Match match) {
         this.match = match;
-//        NotificationQueue notificationQueue = new NotificationQueue();
-//        gameEngine = new GameEngine(notificationQueue);
-//        this.runnable = new MatchRunnable();
-//        worker = new Thread(this.runnable);
+        NotificationQueue notificationQueue = new NotificationQueue();
+        EventQueue eventQueue = new EventQueue();
+        GameEngine gameEngine = new GameEngineImpl(eventQueue, notificationQueue);
+        this.runnable = new MatchRunnable();
+        worker = new Timer();
     }
 
     public void startMatch(){
-        worker.start();
+        worker.schedule(runnable, 0, GAME_TICK_MILLIS);
     }
 
     public Match getMatch() {

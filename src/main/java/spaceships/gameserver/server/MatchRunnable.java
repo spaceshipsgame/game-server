@@ -5,7 +5,9 @@ import spaceships.gameserver.engine.GameEngine;
 import spaceships.gameserver.engine.PlayerActionHandler;
 import spaceships.gameserver.engine.PlayerActionQueue;
 
-public class MatchRunnable implements Runnable {
+import java.util.TimerTask;
+
+public class MatchRunnable extends TimerTask {
 
 	private GameEngine gameEngine;
 	private PlayerActionQueue playerActionQueue;
@@ -15,10 +17,18 @@ public class MatchRunnable implements Runnable {
 	private PlayerActionProcessor playerActionProcessor;
 	private NotificationSender notificationSender;
 
+	public MatchRunnable() {
+	}
+
+	public MatchRunnable(GameEngine gameEngine) {
+		this.gameEngine = gameEngine;
+	}
+
 	@Override
 	public void run() {
 		playerActionProcessor.processActions();
-		gameEngine.proccessEvents();
+		gameEngine.processEvents();
+		notificationSender.sendNotifications();
 	}
 
 	public PlayerActionQueue getPlayerActionQueue() {
