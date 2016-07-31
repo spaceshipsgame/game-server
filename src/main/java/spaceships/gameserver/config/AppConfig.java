@@ -14,7 +14,7 @@ import spaceships.gameserver.server.MatchManager;
 import spaceships.gameserver.server.WaitMatchManagerImpl;
 
 @Configuration
-//@ComponentScan(basePackageClasses = { NettyServer.class, ClientCommandHandler.class, ConnectionResolverImpl.class,
+//@ComponentScan(basePackageClasses = { NettyServer.class,ConnectionResolverImpl.class,
 //		FailedConnectionPlayerPool.class, WaitMatchManagerImpl.class, PlayerActionQueue.class, EventQueue.class })
 @ComponentScan(basePackages="spaceships.gameserver.*")
 @PropertySource(value = "server-config.properties")
