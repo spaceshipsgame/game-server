@@ -13,19 +13,16 @@ public class MatchManager {
 
     private Match match;
     private Timer worker;
-    private MatchRunnable runnable;
+    private GameTickTask tickTask;
 
     public MatchManager(Match match) {
         this.match = match;
-        NotificationQueue notificationQueue = new NotificationQueue();
-        EventQueue eventQueue = new EventQueue();
-        GameEngine gameEngine = new GameEngineImpl(eventQueue, notificationQueue);
-        this.runnable = new MatchRunnable();
+        this.tickTask = new GameTickTask();
         worker = new Timer();
     }
 
     public void startMatch(){
-        worker.schedule(runnable, 0, GAME_TICK_MILLIS);
+        worker.schedule(tickTask, 0, GAME_TICK_MILLIS);
     }
 
     public Match getMatch() {
@@ -36,11 +33,11 @@ public class MatchManager {
         this.match = match;
     }
 
-    public MatchRunnable getRunnable() {
-        return runnable;
+    public GameTickTask getTickTask() {
+        return tickTask;
     }
 
-    public void setRunnable(MatchRunnable runnable) {
-        this.runnable = runnable;
+    public void setTickTask(GameTickTask tickTask) {
+        this.tickTask = tickTask;
     }
 }

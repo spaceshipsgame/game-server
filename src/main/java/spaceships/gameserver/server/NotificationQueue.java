@@ -2,28 +2,40 @@ package spaceships.gameserver.server;
 
 
 import spaceships.gameserver.engine.event.Event;
+import spaceships.gameserver.model.server.Player;
 import spaceships.gameserver.server.protocol.notification.Notification;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 
 public class NotificationQueue {
 
-    private Queue<Notification> buffer;
+//  TODO: implement or use some library for effective collections and HashMap with multiple values for one key
+    private Map<Player, List<Notification>> notificationMap = new HashMap<Player, List<Notification>>();
 
-    public NotificationQueue() {
-        buffer = new LinkedList<>();
+    public NotificationQueue() {}
+
+    public void put(Notification notification, Player player) {
+        List<Notification> notificationList = notificationMap.get(player);
+        if(notificationList == null){
+            notificationList = new ArrayList<>();
+        }
+        notificationList.add(notification);
     }
 
-    public boolean offer(Notification notification) {
-        return buffer.offer(notification);
+    public List<Notification> get(Player player) {
+        return notificationMap.get(player);
     }
 
-    public Notification poll() {
-        return buffer.poll();
+    public Map<Player, List<Notification>> getAll() {
+        return notificationMap;
     }
 
     public boolean isEmpty(){
-        return buffer.isEmpty();
+        return notificationMap.isEmpty();
     }
 }

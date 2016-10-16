@@ -3,6 +3,12 @@ package spaceships.gameserver.server;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import spaceships.gameserver.model.server.Player;
+import spaceships.gameserver.server.protocol.notification.Notification;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class NotificationSenderImpl implements NotificationSender {
 
@@ -14,9 +20,8 @@ public class NotificationSenderImpl implements NotificationSender {
 
 	@Override
 	public void sendNotifications() {
-		while (!notificationQueue.isEmpty()) {
-			notificationQueue.poll().send();
-		}
+		Map<Player, List<Notification>> notifications = notificationQueue.getAll();
+
 	}
 
 }

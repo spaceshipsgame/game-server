@@ -20,7 +20,7 @@ public class ConnectionResolverImpl implements ConnectionResolver {
 	public Player attachToPlayer(Connection connection, String playerHash) {
 		Player player = waitMatchManager.findPlayer(playerHash);
 		if (player != null) {
-			PlayerActionQueue queue = waitMatchManager.getMatchManager(playerHash).getRunnable().getPlayerActionQueue();
+			PlayerActionQueue queue = waitMatchManager.getMatchManager(playerHash).getTickTask().getPlayerActionQueue();
 			connection.setActionQueue(queue);
 			player.setConnection(connection);
 			return player;
