@@ -1,34 +1,33 @@
 package spaceships.gameserver.server;
 
-import spaceships.gameserver.engine.EventQueue;
 import spaceships.gameserver.engine.GameEngine;
 import spaceships.gameserver.engine.GameEngineImpl;
 import spaceships.gameserver.engine.PlayerActionHandler;
+import spaceships.gameserver.engine.PlayerActionHandlerChainFactory;
 import spaceships.gameserver.engine.PlayerActionQueue;
+import spaceships.gameserver.engine.event.Event;
+import spaceships.gameserver.server.protocol.notification.Notification;
 
+import java.util.List;
 import java.util.TimerTask;
 
 public class GameTickTask extends TimerTask {
 
-	private GameEngine gameEngine;
+	private GameEngine gameEngine = new GameEngineImpl();
 	private PlayerActionQueue playerActionQueue;
-	private PlayerActionHandler chain;
-	private EventQueue eventQueue;
-	private NotificationQueue notificationQueue;
 	private PlayerActionProcessor playerActionProcessor;
-	private NotificationSender notificationSender;
+	private NotificationSender notificationSender = new NotificationSenderImpl();
 
 	public GameTickTask() {
-		NotificationQueue notificationQueue = new NotificationQueue();
-		EventQueue eventQueue = new EventQueue();
-		GameEngine gameEngine = new GameEngineImpl(eventQueue, notificationQueue);
+
+		playerActionProcessor = new PlayerActionProcessorImpl();
 	}
 
 	@Override
 	public void run() {
-		playerActionProcessor.processActions();
-		gameEngine.processEvents();
-		notificationSender.sendNotifications();
+		List<Event> events = playerActionProcessor.processActions(playerActionQueue);
+		List<Notification> notifications = gameEngine.processEvents(events);
+		notificationSender.sendNotifications(notifications);
 	}
 
 	public PlayerActionQueue getPlayerActionQueue() {

@@ -1,7 +1,11 @@
 package spaceships.gameserver.server;
 
+import spaceships.gameserver.server.protocol.notification.Notification;
+
+import java.util.List;
+
 public interface NotificationSender {
 
-	public void sendNotifications();
+	void sendNotifications(List<Notification> notifications);
 
 }

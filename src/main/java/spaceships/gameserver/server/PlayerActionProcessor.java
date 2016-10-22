@@ -1,6 +1,12 @@
 package spaceships.gameserver.server;
 
+import spaceships.gameserver.engine.PlayerActionQueue;
+import spaceships.gameserver.engine.event.Event;
+import spaceships.gameserver.server.protocol.action.PlayerAction;
+
+import java.util.List;
+
 public interface PlayerActionProcessor {
 
-    public void processActions();
+    List<Event> processActions(PlayerActionQueue actionQueue);
 }

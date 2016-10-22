@@ -5,6 +5,7 @@ import java.util.Queue;
 
 import spaceships.gameserver.server.protocol.action.PlayerAction;
 
+//TODO:make this class thread-safe
 public class PlayerActionQueue {
 
 	private Queue<PlayerAction> buffer;

@@ -1,6 +1,5 @@
 package spaceships.gameserver.physic.testbed;
 
-import com.sun.xml.internal.bind.v2.TODO;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.World;

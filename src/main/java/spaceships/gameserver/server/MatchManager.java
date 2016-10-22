@@ -1,8 +1,5 @@
 package spaceships.gameserver.server;
 
-import spaceships.gameserver.engine.EventQueue;
-import spaceships.gameserver.engine.GameEngine;
-import spaceships.gameserver.engine.GameEngineImpl;
 import spaceships.gameserver.model.Match;
 
 import java.util.Timer;

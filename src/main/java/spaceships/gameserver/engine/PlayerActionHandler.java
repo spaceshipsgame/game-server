@@ -1,6 +1,9 @@
 package spaceships.gameserver.engine;
 
+import spaceships.gameserver.engine.event.Event;
 import spaceships.gameserver.server.protocol.action.PlayerAction;
+
+import java.util.List;
 
 public abstract class PlayerActionHandler {
 
@@ -13,10 +16,12 @@ public abstract class PlayerActionHandler {
 		this.successor = successor;
 	}
 
-	public void handle(PlayerAction action) {
+	public List<Event> handle(PlayerAction action) {
+//		TODO: implement real action handling
 		if (successor != null) {
 			successor.handle(action);
 		}
+		return null;
 	}
 
 	public void setSuccessor(PlayerActionHandler successor) {
