@@ -2,14 +2,16 @@ package spaceships.gameserver.stubs;
 
 import spaceships.gameserver.engine.GameEngine;
 import spaceships.gameserver.engine.event.Event;
+import spaceships.gameserver.server.protocol.action.Action;
 import spaceships.gameserver.server.protocol.notification.Notification;
 import spaceships.gameserver.server.protocol.notification.UpdateGameObjectNotification;
 
 import java.util.List;
+import java.util.Queue;
 
 public class GameEngineStub implements GameEngine {
     @Override
-    public List<Notification> processEvents(List<Event> events) {
+    public List<Notification> process(Queue<Action> actions) {
         return null;
     }
 
@@ -23,7 +25,7 @@ public class GameEngineStub implements GameEngine {
 //
 //    private int i = 0;
 //    private int GENERATOR_CONST = 60;
-//    public void processEvents() {
+//    public void process() {
 //        while (!eventQueue.isEmpty()) {
 //            eventQueue.poll();
 //        }

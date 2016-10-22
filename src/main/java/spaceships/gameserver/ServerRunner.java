@@ -5,9 +5,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import spaceships.gameserver.config.AppConfig;
-import spaceships.gameserver.engine.PlayerActionHandler;
 import spaceships.gameserver.netty.NettyServer;
-import spaceships.gameserver.server.MatchManager;
 
 public class ServerRunner {
 

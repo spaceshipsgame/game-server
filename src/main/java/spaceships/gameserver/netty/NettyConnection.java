@@ -1,15 +1,18 @@
 package spaceships.gameserver.netty;
 
 import io.netty.channel.Channel;
-import spaceships.gameserver.engine.PlayerActionQueue;
 import spaceships.gameserver.model.server.Connection;
-import spaceships.gameserver.server.protocol.action.PlayerAction;
+import spaceships.gameserver.server.protocol.action.Action;
 import spaceships.gameserver.server.protocol.notification.Notification;
+
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class NettyConnection implements Connection{
 
     private Channel channel;
-    private PlayerActionQueue actionQueue;
+
+    private Queue<Action> actions;
 
     public NettyConnection(Channel channel) {
         this.channel = channel;
@@ -22,15 +25,15 @@ public class NettyConnection implements Connection{
     }
 
     @Override
-    public void sendToServer(PlayerAction action) {
-        actionQueue.offer(action);
+    public void sendToServer(Action action) {
+        actions.offer(action);
     }
 
-    public PlayerActionQueue getActionQueue() {
-        return actionQueue;
+    public Queue<Action> getActions() {
+        return actions;
     }
 
-    public void setActionQueue(PlayerActionQueue actionQueue) {
-        this.actionQueue = actionQueue;
+    public void setActions(Queue<Action> actions) {
+        this.actions = actions;
     }
 }

@@ -1,6 +1,6 @@
 package spaceships.gameserver.server.protocol.action;
 
-public class MoveAction implements PlayerAction{
+public class MoveAction implements Action {
 
     private Button button;
     private boolean isPressed;

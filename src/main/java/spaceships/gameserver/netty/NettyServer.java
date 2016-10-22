@@ -16,7 +16,6 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpServerCodec;
 import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
-import spaceships.gameserver.engine.PlayerActionQueue;
 import spaceships.gameserver.netty.handlers.ClientCommandHandler;
 import spaceships.gameserver.server.ConnectionResolver;
 

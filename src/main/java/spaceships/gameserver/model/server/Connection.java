@@ -1,16 +1,17 @@
 package spaceships.gameserver.model.server;
 
-import spaceships.gameserver.engine.PlayerActionQueue;
-import spaceships.gameserver.server.protocol.action.PlayerAction;
+import spaceships.gameserver.server.protocol.action.Action;
 import spaceships.gameserver.server.protocol.notification.Notification;
+
+import java.util.Queue;
 
 public interface Connection {
 
     void sendToClient(Notification ... notifications);
 
-    void sendToServer(PlayerAction action);
+    void sendToServer(Action action);
 
-    PlayerActionQueue getActionQueue();
+    Queue<Action> getActions();
 
-    void setActionQueue(PlayerActionQueue actionQueue);
+    void setActions(Queue<Action> actions);
 }
