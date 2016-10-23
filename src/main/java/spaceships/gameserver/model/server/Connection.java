@@ -5,6 +5,7 @@ import spaceships.gameserver.server.protocol.notification.Notification;
 
 import java.util.Queue;
 
+
 public interface Connection {
 
     void sendToClient(Notification ... notifications);

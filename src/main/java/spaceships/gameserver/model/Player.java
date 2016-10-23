@@ -1,6 +1,6 @@
 package spaceships.gameserver.model;
 
-public class Ship {
+public class Player {
 
     private float maxSpeed;
     private float acceleration;

@@ -3,16 +3,16 @@ package spaceships.gameserver.physic;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.World;
-import spaceships.gameserver.model.Ship;
+import spaceships.gameserver.model.Player;
 
 public class ShipBody{
 
-    private Ship ship;
+    private Player ship;
     private Body body;
     private boolean acceleration;
 
-    public ShipBody(World world, Ship ship, float x , float y, float weight, float height) {
-        this.ship = ship;
+    public ShipBody(World world, Player player, float x , float y, float weight, float height) {
+        this.ship = player;
         this.body = Box2dUtils.createDynamicBox(world, new Vec2(x, y), weight, height);
     }
 
@@ -40,9 +40,9 @@ public class ShipBody{
         if(acceleration) {
             Vec2 direction = Box2dUtils.calculateDirection(body.getAngle());
             body.applyForceToCenter(direction.mul(ship.getAcceleration()));
-//            if (body.getLinearVelocity().length() > ship.getMaxSpeed()) {
+//            if (body.getLinearVelocity().length() > player.getMaxSpeed()) {
 //                body.getLinearVelocity().normalize();
-//                body.setLinearVelocity(body.getLinearVelocity().mul(ship.getMaxSpeed()));
+//                body.setLinearVelocity(body.getLinearVelocity().mul(player.getMaxSpeed()));
 //            }
 
 //            http://www.iforce2d.net/b2dtut/constant-speed

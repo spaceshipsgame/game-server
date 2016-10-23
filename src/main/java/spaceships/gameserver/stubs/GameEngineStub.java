@@ -1,10 +1,8 @@
 package spaceships.gameserver.stubs;
 
 import spaceships.gameserver.engine.GameEngine;
-import spaceships.gameserver.engine.event.Event;
 import spaceships.gameserver.server.protocol.action.Action;
 import spaceships.gameserver.server.protocol.notification.Notification;
-import spaceships.gameserver.server.protocol.notification.UpdateGameObjectNotification;
 
 import java.util.List;
 import java.util.Queue;

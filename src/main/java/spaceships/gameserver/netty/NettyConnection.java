@@ -6,7 +6,6 @@ import spaceships.gameserver.server.protocol.action.Action;
 import spaceships.gameserver.server.protocol.notification.Notification;
 
 import java.util.Queue;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class NettyConnection implements Connection{
 

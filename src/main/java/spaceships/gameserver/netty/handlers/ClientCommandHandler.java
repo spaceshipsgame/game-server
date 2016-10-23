@@ -8,11 +8,13 @@ import spaceships.gameserver.model.server.Connection;
 import spaceships.gameserver.model.server.Player;
 import spaceships.gameserver.netty.NettyConnection;
 import spaceships.gameserver.server.ConnectionResolver;
-import spaceships.gameserver.server.protocol.action.MoveAction;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import org.apache.log4j.Logger;
+import spaceships.gameserver.server.protocol.action.MoveShipAction;
+
+import java.util.Objects;
 
 public class ClientCommandHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> {
 
@@ -20,6 +22,7 @@ public class ClientCommandHandler extends SimpleChannelInboundHandler<TextWebSoc
 
     private ConnectionResolver connectionResolver;
     private Connection connection;
+    private Player player;
     private boolean isAuthorized;
 
     public ClientCommandHandler(ConnectionResolver connectionResolver) {
@@ -34,8 +37,8 @@ public class ClientCommandHandler extends SimpleChannelInboundHandler<TextWebSoc
         try {
             JsonElement element = parser.parse(message);
             json = element.getAsJsonObject();
-        } catch (Exception exeption){
-            logger.error("JSON parsing exception", exeption);
+        } catch (Exception e){
+            logger.error("JSON parsing exception", e);
         }
 
         if(!isAuthorized) {
@@ -43,7 +46,7 @@ public class ClientCommandHandler extends SimpleChannelInboundHandler<TextWebSoc
                 JsonElement playerHashElement = json.get("playerHash");
                 String playerHash = playerHashElement.getAsString();
                 Connection connection = new NettyConnection(ctx.channel());
-                Player player = connectionResolver.attachToPlayer(connection, playerHash);
+                player = connectionResolver.attachToPlayer(connection, playerHash);
                 if(player != null) {
                     this.connection = connection;
                     isAuthorized = true;
@@ -52,19 +55,27 @@ public class ClientCommandHandler extends SimpleChannelInboundHandler<TextWebSoc
             logger.warn("Wrong command. Authentication required");
         }
 
-        if(proccessIfMoveAction(json)) return;
-        if(proccessIfShotAction(json)) return;
+        if(processIfMoveAction(json)) return;
+        if(processIfShotAction(json)) return;
 
         logger.warn("Wrong JSON format");
     }
 
-    public boolean proccessIfMoveAction(JsonObject json){
+    public boolean processIfMoveAction(JsonObject json){
         JsonElement button = json.get("button");
         if(button != null){
-            boolean isPressed = json.get("press").getAsBoolean();
-            MoveAction command = new MoveAction(button.getAsString(), isPressed);
-            if(command.getButton() != null) {
-                connection.sendToServer(command);
+            JsonElement isActiveJson = json.get("press");
+            boolean isActive;
+            if(isActiveJson != null){
+                isActive = isActiveJson.getAsBoolean();
+            } else {
+                logger.warn("Wrong move command");
+                return false;
+            }
+            MoveShipAction.MoveType moveType = MoveShipAction.MoveType.parse(button.getAsString());
+            if(moveType != null){
+                MoveShipAction action = new MoveShipAction(player, moveType, isActive);
+                connection.sendToServer(action);
                 logger.warn("Move command received");
                 return true;
             }
@@ -74,7 +85,7 @@ public class ClientCommandHandler extends SimpleChannelInboundHandler<TextWebSoc
         return false;
     }
 
-    public boolean proccessIfShotAction(JsonObject json){
+    public boolean processIfShotAction(JsonObject json){
         return false;
     }
 

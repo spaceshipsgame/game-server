@@ -3,7 +3,7 @@ package spaceships.gameserver.physic;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.World;
 import spaceships.gameserver.model.Gun;
-import spaceships.gameserver.model.Ship;
+import spaceships.gameserver.model.Player;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,7 +16,7 @@ public class PhysicEngineImpl implements PhysicEngine {
     private int positionIterationCount; //default value in testbed 3
 
     private World world;
-    private Map<Ship, ShipBody> bindingMap = new HashMap<>();
+    private Map<Player, ShipBody> bindingMap = new HashMap<>();
 
     public PhysicEngineImpl(float deltaTimeSimulation, int velocityIterationCount, int positionIterationCount) {
         this.deltaTimeSimulation = deltaTimeSimulation;
@@ -31,33 +31,33 @@ public class PhysicEngineImpl implements PhysicEngine {
     }
 
     @Override
-    public void addNewShip(Ship ship, float x , float y, float weight, float height) {
+    public void addNewShip(Player ship, float x , float y, float weight, float height) {
         ShipBody shipBody = new ShipBody(world, ship, x, y, weight, height);
         bindingMap.put(ship, shipBody);
     }
 
     @Override
-    public void accelerate(Ship ship) {
+    public void accelerate(Player ship) {
         bindingMap.get(ship).accelerate();
     }
 
     @Override
-    public void stopAccelerate(Ship ship) {
+    public void stopAccelerate(Player ship) {
         bindingMap.get(ship).stopAccelerate();
     }
 
     @Override
-    public void turnLeft(Ship ship, float angleChangingIntensity) {
+    public void turnLeft(Player ship, float angleChangingIntensity) {
         bindingMap.get(ship).turnLeft(angleChangingIntensity);
     }
 
     @Override
-    public void turnRight(Ship ship, float angleChangingIntensity) {
+    public void turnRight(Player ship, float angleChangingIntensity) {
         bindingMap.get(ship).turnRight(angleChangingIntensity);
     }
 
     @Override
-    public void stopTurning(Ship ship) {
+    public void stopTurning(Player ship) {
         bindingMap.get(ship).stopTurn();
     }
 
@@ -68,7 +68,7 @@ public class PhysicEngineImpl implements PhysicEngine {
     }
 
     @Override
-    public void shoot(Ship ship, Gun gun) {
+    public void shoot(Player ship, Gun gun) {
 
     }
 
